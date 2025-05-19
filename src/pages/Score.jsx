@@ -38,14 +38,8 @@ function Score() {
   // Function to calculate score based on distance
   function calculateScore(distance) {
     // Max score of 5000 if exact location, decays the further away you are
-    if (distance < 1) return 5000;
-    if (distance < 10) return 5000 - distance * 100;
-    if (distance < 100) return 4000 - (distance - 10) * 10;
-    if (distance < 1000) return 3000 - (distance - 100);
-    if (distance < 5000) return 2000 - (distance - 1000) / 4;
-    if (distance < 10000) return 1000 - (distance - 5000) / 5;
-    
-    return 1; // More than 10,000 km away
+    const score=5000*Math.exp(-distance/1500);
+    return score;
   }
 
   // Generate random location and calculate distance/score

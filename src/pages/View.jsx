@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Viewer } from "mapillary-js";
-
+import "./View.css"
 const View = () => {
   /* TODO:create a .env file in the root project directory
    add the name of the file in the .gitignore (as soon the save the gitignore file after adding name the filename in the file panel becomes dim)
