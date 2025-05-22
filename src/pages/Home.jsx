@@ -5,7 +5,11 @@ function Home() {
   return (
     <div>
       <h1>Welcome to Street Wonderer</h1>
-      <Link to="/Game">Play</Link>
+      <Link to="/Game" >
+        <button class="btn">
+          <span>Play</span>
+        </button>
+      </Link>
     </div>
   );
 }

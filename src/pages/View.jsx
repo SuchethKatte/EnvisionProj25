@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Viewer } from "mapillary-js";
 import "./View.css"
 
-const View = () => {
+const View = ({ onImageLoaded }) => {
   /* TODO:create a .env file in the root project directory
    add the name of the file in the .gitignore (as soon the save the gitignore file after adding name the filename in the file panel becomes dim)
    add the key as VITE_MAPPILLARY_TOKEN = "access_token" (client_token) in mappillary user profile
@@ -20,6 +20,7 @@ const View = () => {
     
     if (!containerRef.current) return;
 
+    
     const viewer = new Viewer({
       accessToken,
       container: containerRef.current,
@@ -28,6 +29,11 @@ const View = () => {
         cover: false, // Disable cover component
       },
 
+    });
+    viewer.on("rendered", () => {
+      if (onImageLoaded) {
+        onImageLoaded();
+      }
     });
 
     const loadRandomImage = async () => {
