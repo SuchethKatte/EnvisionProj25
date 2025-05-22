@@ -15,11 +15,13 @@ function Game() {
           setTrueCoords={setTrueCoords} 
           setImageLoaded={setImageLoaded}
         />
+        
       </div>
       <div className={styles.timer}>
         <Timer 
           guessCoords={guessCoords} 
           defaultCoords={trueCoords}
+          imageLoaded={imageLoaded}
         />
       </div>
       <div className={styles.leaflet}>

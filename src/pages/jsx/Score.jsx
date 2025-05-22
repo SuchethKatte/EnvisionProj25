@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css/Score.css";
 import MapScore from "./MapScore";
-
+import LoadingAnimation from "./LoadingAnimation";
 function Score() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { guessCoords } = location.state || {};
+  const { guessCoords, trueCoords } = location.state || {};
   
   const [defaultLocation, setDefaultLocation] = useState(null);
   const [distance, setDistance] = useState(null);
   const [score, setScore] = useState(null);
 
   // Function to generate random coordinates
-  const generateRandomLocation = () => {
+  const generatetrueCoords = () => {
     // Random lat between -60 and 75 (avoiding extreme poles)
     const lat = Math.random() * 135 - 60;
     // Random lng between -180 and 180
@@ -46,14 +46,13 @@ function Score() {
   useEffect(() => {
     if (!guessCoords) return;
     
-    const randomLocation = generateRandomLocation();
-    setDefaultLocation(randomLocation);
+    
 
     const calculatedDistance = calculateDistance(
       guessCoords.lat,
       guessCoords.lng,
-      randomLocation.lat,
-      randomLocation.lng
+      trueCoords.lat,
+      trueCoords.lng
     );
     setDistance(calculatedDistance);
     setScore(calculateScore(calculatedDistance));
@@ -63,7 +62,7 @@ function Score() {
     return (
       <div className="dashboard-container">
         <div className="top-row">
-          <div className="box">No location selected!</div>
+          <div className="box"><LoadingAnimation/></div>
           <div className="box">Score: 0</div>
         </div>
       </div>
@@ -73,12 +72,7 @@ function Score() {
   return (
     <div className="dashboard-container">
       <div className="top-row">
-        <div className="box">
-          <MapScore 
-            guessCoords={guessCoords} 
-            defaultLocation={defaultLocation} 
-          />
-        </div>
+        
         {/* <div className="box">
           <div className="score-details">
             <h2>Your Score</h2>
@@ -148,7 +142,12 @@ function Score() {
               </div>
             </div>
           </div>
-
+          <div className="box">
+          <MapScore 
+            guessCoords={guessCoords} 
+            defaultLocation={trueCoords} 
+          />
+        </div>
       </div>
     </div>
   );

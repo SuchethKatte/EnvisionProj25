@@ -23,7 +23,7 @@ function Map({ onGuess } = {}) {
 
       currentMarker = L.marker([lat, lng])
         .addTo(map)
-        .bindPopup(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`)
+        .bindPopup(`Your Guess`)
         .openPopup();
       
       onGuess({ lat, lng });

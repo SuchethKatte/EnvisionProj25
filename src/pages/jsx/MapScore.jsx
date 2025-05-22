@@ -15,12 +15,19 @@ function MapScore({ guessCoords, defaultLocation }) {
 
     // Custom icons
     const guessIcon = L.icon({
-      iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
-
+    var greenIcon = new L.Icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
     const defaultIcon = L.icon({
       iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
       iconSize: [25, 41],
@@ -30,14 +37,14 @@ function MapScore({ guessCoords, defaultLocation }) {
     });
 
     // Add markers
-    L.marker([guessCoords.lat, guessCoords.lng], { icon: guessIcon })
+    L.marker([guessCoords.lat, guessCoords.lng], {icon: guessIcon} )
       .addTo(map)
       .bindPopup("Your Guess")
       .openPopup();
 
-    L.marker([defaultLocation.lat, defaultLocation.lng], { icon: defaultIcon })
+    L.marker([defaultLocation.lat, defaultLocation.lng], {icon: greenIcon})
       .addTo(map)
-      .bindPopup("Default Location")
+      .bindPopup("Answer")
       .openPopup();
 
     // Draw connecting line

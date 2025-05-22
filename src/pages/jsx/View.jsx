@@ -35,6 +35,7 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
     const loadRandomImage = async () => {
       //TODO : edit this part to take into account the whole world
       const BBOX = [-74.01, 40.7, -73.97, 40.74];
+      //Working Only for New York
       const url = `https://graph.mapillary.com/images?fields=id,geometry&bbox=${BBOX.join(
         ","
       )}&limit=20`;

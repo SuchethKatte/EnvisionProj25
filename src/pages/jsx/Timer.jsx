@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Timer.css";
-
-function Timer({ guessCoords, defaultCoords } ) {
-    const [seconds, setSeconds] = useState(10);
+import LoadingAnimation from "./LoadingAnimation";
+function Timer({ guessCoords, defaultCoords, imageLoaded } ) {
+    const [seconds, setSeconds] = useState(50);
     const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
+    const [timerActive, setTimerActive] = useState(false);
+    useEffect(() => {
+    if (imageLoaded && !timerActive) {
+      setTimerActive(true);
+    }
+  }, [imageLoaded]);
 
     useEffect(() => {
+        if (!timerActive) return;
         if (submitted) return;
         if (seconds === 0) {
             handleSubmit();
@@ -31,7 +38,7 @@ function Timer({ guessCoords, defaultCoords } ) {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [seconds, submitted]);
+    }, [seconds, submitted, timerActive ]);
 
     const handleSubmit = () => {
         if (!submitted) {
@@ -39,7 +46,7 @@ function Timer({ guessCoords, defaultCoords } ) {
             navigate("/Score", {
                 state: {
                     guessCoords: guessCoords || null,
-                    defaultCoords: defaultCoords || null,
+                    trueCoords: defaultCoords || null,
                 },
             });
         }
@@ -53,10 +60,12 @@ function Timer({ guessCoords, defaultCoords } ) {
 
     return (
         
-        <div className = "timer-container" >
+            <div className = "timer-container" >
             <div className = "time" > { formatTime(seconds) } </div>
             <button className ="submit-button" onClick={handleSubmit} disabled ={!guessCoords || submitted}> Submit</button > 
         </div >
+        
+        
                 
     );
 }
