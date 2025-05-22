@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./Score.css";
+import "../css/Score.css";
 import MapScore from "./MapScore";
 
 function Score() {

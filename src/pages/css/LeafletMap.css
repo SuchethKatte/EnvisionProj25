@@ -1,0 +1,24 @@
+/* Scoped Leaflet styles */
+.leaflet-map-container {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-map-container .leaflet-container {
+  font-family: inherit !important;
+}
+
+.leaflet-map-container .leaflet-default-marker {
+  /* Your marker styles */
+}
+
+/* Scope all Leaflet classes within your container */
+.leaflet-map-container .leaflet-pane,
+.leaflet-map-container .leaflet-tile,
+.leaflet-map-container .leaflet-marker-icon,
+.leaflet-map-container .leaflet-marker-shadow,
+.leaflet-map-container .leaflet-tile-container,
+.leaflet-map-container .leaflet-popup-content-wrapper,
+.leaflet-map-container .leaflet-popup-tip {
+  /* Your styles */
+}

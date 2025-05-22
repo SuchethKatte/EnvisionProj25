@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Viewer } from "mapillary-js";
-import "./View.css"
+import "../css/View.css"
 
-const View = ({ onImageLoaded }) => {
+const View = ({ setTrueCoords, setImageLoaded }) => {
   /* TODO:create a .env file in the root project directory
    add the name of the file in the .gitignore (as soon the save the gitignore file after adding name the filename in the file panel becomes dim)
    add the key as VITE_MAPPILLARY_TOKEN = "access_token" (client_token) in mappillary user profile
@@ -30,11 +30,7 @@ const View = ({ onImageLoaded }) => {
       },
 
     });
-    viewer.on("rendered", () => {
-      if (onImageLoaded) {
-        onImageLoaded();
-      }
-    });
+    
 
     const loadRandomImage = async () => {
       //TODO : edit this part to take into account the whole world
@@ -61,6 +57,8 @@ const View = ({ onImageLoaded }) => {
           //TODO: declare these variables outside the try-catch block to send the coordinates from Games to score routes
           const [lng, lat] = randomImage.geometry.coordinates;
           console.log(`${lat}, ${lng}`);
+          setTrueCoords({ lat, lng });
+          setImageLoaded(true); // ✅ Let Game.jsx start timer
         });
       } catch (e) {
         console.error(e);
@@ -71,7 +69,7 @@ const View = ({ onImageLoaded }) => {
     loadRandomImage();
 
     return () => viewer.remove();
-  }, [accessToken]);
+  }, [accessToken, setTrueCoords, setImageLoaded]);
 
   return (
     <div

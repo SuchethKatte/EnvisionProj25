@@ -1,8 +1,8 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import Game from "./pages/Game";
-import Score from "./pages/Score";
+import Home from "./pages/jsx/Home";
+import Game from "./pages/jsx/Game";
+import Score from "./pages/jsx/Score";
 
 function App() {
   let router = createBrowserRouter([

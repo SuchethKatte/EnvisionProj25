@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Timer.css";
+import "../css/Timer.css";
 
-function Timer({ guessCoords } ) {
-    const [seconds, setSeconds] = useState(60);
+function Timer({ guessCoords, defaultCoords } ) {
+    const [seconds, setSeconds] = useState(10);
     const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function Timer({ guessCoords } ) {
             navigate("/Score", {
                 state: {
                     guessCoords: guessCoords || null,
-
+                    defaultCoords: defaultCoords || null,
                 },
             });
         }
