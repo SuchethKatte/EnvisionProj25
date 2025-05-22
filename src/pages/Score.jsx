@@ -38,7 +38,7 @@ function Score() {
   // Function to calculate score based on distance
   function calculateScore(distance) {
     // Max score of 5000 if exact location, decays the further away you are
-    const score=5000*Math.exp(-distance/1500);
+    const score=5000*Math.exp(-distance/5000);
     return score;
   }
 
