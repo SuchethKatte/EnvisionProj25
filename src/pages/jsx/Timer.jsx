@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/Timer.css";
 import LoadingAnimation from "./LoadingAnimation";
 function Timer({ guessCoords, defaultCoords, imageLoaded } ) {
-    const [seconds, setSeconds] = useState(50);
+    const [seconds, setSeconds] = useState(70);
     const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
     const [timerActive, setTimerActive] = useState(false);
@@ -62,7 +62,8 @@ function Timer({ guessCoords, defaultCoords, imageLoaded } ) {
         
             <div className = "timer-container" >
             <div className = "time" > { formatTime(seconds) } </div>
-            <button className ="submit-button" onClick={handleSubmit} disabled ={!guessCoords || submitted}> Submit</button > 
+            <button className ="btn" onClick={handleSubmit} disabled ={!guessCoords || submitted}> Submit
+                </button > 
         </div >
         
         

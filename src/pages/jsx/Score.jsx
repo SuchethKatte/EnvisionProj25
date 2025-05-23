@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../css/Score.css";
 import MapScore from "./MapScore";
 import LoadingAnimation from "./LoadingAnimation";
+import ScoreCard from "./ScoreCard";
+import GearLoader from "./GearLoader";
 function Score() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -63,7 +65,11 @@ function Score() {
       <div className="dashboard-container">
         <div className="top-row">
           <div className="box"><LoadingAnimation/></div>
-          <div className="box">Score: 0</div>
+          <div className="box">
+            <ScoreCard
+            Score={0}
+          />
+          </div>
         </div>
       </div>
     );
@@ -98,50 +104,9 @@ function Score() {
           </div>
         </div> */}
         
-          <div class="container noselect">
-            <div class="canvas">
-              <div class="tracker tr-1"></div>
-              <div class="tracker tr-2"></div>
-              <div class="tracker tr-3"></div>
-              <div class="tracker tr-4"></div>
-              <div class="tracker tr-5"></div>
-              <div class="tracker tr-6"></div>
-              <div class="tracker tr-7"></div>
-              <div class="tracker tr-8"></div>
-              <div class="tracker tr-9"></div>
-              <div id="card">
-                <div class="card-content">
-                  <div class="card-glare"></div>
-                  <div class="cyber-lines">
-                    <span></span><span></span><span></span><span></span>
-                  </div>
-                  <p id="prompt">
-                    Score <br></br>
-                    {score ? Math.round(score) : "Calculating..."}
-                  </p>
-                  
-
-                  <div class="title">CYBER<br />CARD</div>
-                  <div class="glowing-elements">
-                    <div class="glow-1"></div>
-                    <div class="glow-2"></div>
-                    <div class="glow-3"></div>
-                  </div>
-                  <div class="subtitle">
-                    <span>INTERACTIVE</span>
-                    <span class="highlight">3D EFFECT</span>
-                  </div>
-                  <div class="card-particles">
-                    <span></span><span></span><span></span> <span></span><span></span><span></span>
-                  </div>
-                  <div class="corner-elements">
-                    <span></span><span></span><span></span><span></span>
-                  </div>
-                  <div class="scan-line"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ScoreCard
+            Score={Math.round(score) }
+          />
           <div className="box">
           <MapScore 
             guessCoords={guessCoords} 

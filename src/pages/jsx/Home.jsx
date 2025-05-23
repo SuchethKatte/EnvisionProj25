@@ -1,15 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/Home.css";
+import styles from "../css/Home.module.css";
 
 function Home() {
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Welcome to Street Wonderer</h1>
       <Link to="/Game" >
-        <button class="btn">
-          <span>Play</span>
-        </button>
+        
+          <button class={styles.button}>
+            Start
+          </button>
+
       </Link>
     </div>
 

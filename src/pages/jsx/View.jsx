@@ -1,44 +1,31 @@
 import { useEffect, useRef } from "react";
 import { Viewer } from "mapillary-js";
-import "../css/View.css"
 
 const View = ({ setTrueCoords, setImageLoaded }) => {
-  /* TODO:create a .env file in the root project directory
-   add the name of the file in the .gitignore (as soon the save the gitignore file after adding name the filename in the file panel becomes dim)
-   add the key as VITE_MAPPILLARY_TOKEN = "access_token" (client_token) in mappillary user profile
-   */
-  const container = document.createElement('div');
-  container.style.width = '400px';
-  container.style.height = '300px';
-  document.body.appendChild(container);
-
-
   const containerRef = useRef(null);
   const accessToken = import.meta.env.VITE_MAPILLARY_TOKEN;
 
   useEffect(() => {
-    
     if (!containerRef.current) return;
 
-    
     const viewer = new Viewer({
       accessToken,
       container: containerRef.current,
-      cover: false, // Disable the cover screen
-      component: {
-        cover: false, // Disable cover component
-      },
-
     });
-    
 
     const loadRandomImage = async () => {
-      //TODO : edit this part to take into account the whole world
-      const BBOX = [-74.01, 40.7, -73.97, 40.74];
-      //Working Only for New York
-      const url = `https://graph.mapillary.com/images?fields=id,geometry&bbox=${BBOX.join(
-        ","
-      )}&limit=20`;
+      // 🌍 Generate random lat/lng on Earth
+      const randomLat = Math.random() * 140 - 70; // -70 to 70
+      const randomLng = Math.random() * 360 - 180; // -180 to 180
+      const buffer = 0.05;
+      const BBOX = [
+        randomLng - buffer,
+        randomLat - buffer,
+        randomLng + buffer,
+        randomLat + buffer,
+      ];
+
+      const url = `https://graph.mapillary.com/images?fields=id,geometry&bbox=${BBOX.join(",")}&limit=10`;
 
       try {
         const response = await fetch(url, {
@@ -47,7 +34,8 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
         const data = await response.json();
 
         if (!data.data.length) {
-          console.warn("No images found.");
+          console.warn("No images found. Retrying...");
+          loadRandomImage(); // Retry
           return;
         }
 
@@ -55,9 +43,8 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
           data.data[Math.floor(Math.random() * data.data.length)];
 
         viewer.moveTo(randomImage.id).then(() => {
-          //TODO: declare these variables outside the try-catch block to send the coordinates from Games to score routes
           const [lng, lat] = randomImage.geometry.coordinates;
-          console.log(`${lat}, ${lng}`);
+          console.log(`True Location: ${lat}, ${lng}`);
           setTrueCoords({ lat, lng });
           setImageLoaded(true); // ✅ Let Game.jsx start timer
         });
@@ -66,21 +53,27 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
       }
     };
 
-    //TODO: try to find a way to start timer element when the image has already loaded
     loadRandomImage();
 
     return () => viewer.remove();
   }, [accessToken, setTrueCoords, setImageLoaded]);
 
   return (
+  <div style={{ width: "100%", height: "100%", position: "relative" }}>
     <div
       ref={containerRef}
       style={{
         width: "100%",
         height: "100%",
+        position: "absolute",
+        top: 0,
+        left: 0,
       }}
     />
-  );
+  </div>
+);
+
+
 };
 
 export default View;
