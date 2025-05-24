@@ -11,6 +11,7 @@ function Game() {
   return (
     <div className={styles.container}>
       <div className={styles.mapillary}>
+        
         <View 
           setTrueCoords={setTrueCoords} 
           setImageLoaded={setImageLoaded}

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Viewer } from "mapillary-js";
+import MapLoader from "./MapLoader";
 
 const View = ({ setTrueCoords, setImageLoaded }) => {
   const containerRef = useRef(null);
   const accessToken = import.meta.env.VITE_MAPILLARY_TOKEN;
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -14,6 +15,8 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
     });
 
     const loadRandomImage = async () => {
+      setIsLoading(true);
+      setImageLoaded(false);
       // 🌍 Generate random lat/lng on Earth
       const randomLat = Math.random() * 140 - 70; // -70 to 70
       const randomLng = Math.random() * 360 - 180; // -180 to 180
@@ -38,21 +41,24 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
           loadRandomImage(); // Retry
           return;
         }
+        else{
+            const randomImage =
+              data.data[Math.floor(Math.random() * data.data.length)];
 
-        const randomImage =
-          data.data[Math.floor(Math.random() * data.data.length)];
-
-        viewer.moveTo(randomImage.id).then(() => {
-          const [lng, lat] = randomImage.geometry.coordinates;
-          console.log(`True Location: ${lat}, ${lng}`);
-          setTrueCoords({ lat, lng });
-          setImageLoaded(true); // ✅ Let Game.jsx start timer
-        });
+            viewer.moveTo(randomImage.id).then(() => {
+              const [lng, lat] = randomImage.geometry.coordinates;
+              console.log(`True Location: ${lat}, ${lng}`);
+              setTrueCoords({ lat, lng });
+              setImageLoaded(true); // ✅ Let Game.jsx start timer
+              setIsLoading(false);
+            });
+          }
       } catch (e) {
         console.error(e);
+        setImageLoaded(false);
+        setIsLoading(true);
       }
     };
-
     loadRandomImage();
 
     return () => viewer.remove();
@@ -60,6 +66,7 @@ const View = ({ setTrueCoords, setImageLoaded }) => {
 
   return (
   <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    {isLoading&&<MapLoader/>}
     <div
       ref={containerRef}
       style={{
